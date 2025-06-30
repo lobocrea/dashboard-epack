@@ -1,11 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['serverless.priver.app', 'images.pexels.com'],
-  },
-  swcMinify: false,
-  experimental: {
-    esmExternals: false,
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'serverless.priver.app',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.pexels.com',
+      },
+    ],
   },
 }
 

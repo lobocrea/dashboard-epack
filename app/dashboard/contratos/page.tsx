@@ -1,6 +1,8 @@
 'use client'
 
+import { useState } from 'react'
 import DataTable from '@/components/DataTable'
+import ContratosModal, { Contrato } from '@/components/ContratosModal'
 import { contratosData } from '@/lib/data'
 
 const columns = [
@@ -13,8 +15,17 @@ const columns = [
 ]
 
 export default function ContratosPage() {
-  const handleView = (contrato: any) => {
-    console.log('Ver contrato:', contrato)
+  const [selectedContrato, setSelectedContrato] = useState<Contrato | null>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const handleView = (contrato: Contrato) => {
+    setSelectedContrato(contrato)
+    setIsModalOpen(true)
+  }
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false)
+    setSelectedContrato(null)
   }
 
   const handleRefresh = (contrato: any) => {
@@ -30,14 +41,21 @@ export default function ContratosPage() {
   }
 
   return (
-    <DataTable
-      title="Contratos"
-      columns={columns}
-      data={contratosData}
-      onView={handleView}
-      onRefresh={handleRefresh}
-      onEdit={handleEdit}
-      onDelete={handleDelete}
-    />
+    <>
+      <DataTable
+        title="Contratos"
+        columns={columns}
+        data={contratosData}
+        onView={handleView}
+        onRefresh={handleRefresh}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+      />
+      <ContratosModal
+        contrato={selectedContrato}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+      />
+    </>
   )
 }
